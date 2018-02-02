@@ -34,7 +34,6 @@ public class Terrain extends GameObject{
 	
 	@Override
 	void draw(Graphics g) {
-		
 		int xBuffer = 0;
 		for(int i = 0; i < facets.length; i++){
 			g.setColor(Color.GREEN);

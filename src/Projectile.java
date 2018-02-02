@@ -7,6 +7,7 @@ public class Projectile extends GameObject{
 	
 	public Projectile(int x, int y, double angle, ProjectileType p){
 		affectedByGravity = true;
+		canMove = true;
 		type = p;
 		super.x = x;
 		super.y = y;

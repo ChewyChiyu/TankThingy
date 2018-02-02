@@ -1,4 +1,4 @@
 
 public enum ObjectType {
-	PROJECTILE_SIMPLE, FACET;
+	PROJECTILE_SIMPLE, FACET, TANK_SIMPLE;
 }

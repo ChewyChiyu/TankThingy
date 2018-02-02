@@ -2,12 +2,15 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
+import javax.swing.AbstractAction;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 
 @SuppressWarnings("serial")
 public class TankThing extends JPanel{
@@ -25,12 +28,14 @@ public class TankThing extends JPanel{
 	Terrain terrain;
 	
 	final int GRAVITY = 2;
+	final int MAX_GRAVITY = 20;
 	
+	Tank player1;
 	
 	public TankThing(){
 		panel();
 		start();
-		
+		keys();
 		this.addMouseListener(new MouseListener(){
 
 			@Override
@@ -66,6 +71,52 @@ public class TankThing extends JPanel{
 		
 	}
 	
+	void keys(){
+		getInputMap().put(KeyStroke.getKeyStroke("A"), "A");		
+		getInputMap().put(KeyStroke.getKeyStroke("D"), "D");
+		getInputMap().put(KeyStroke.getKeyStroke("released A"), "rA");		
+		getInputMap().put(KeyStroke.getKeyStroke("released D"), "rD");
+		
+		getActionMap().put("A", new AbstractAction(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				player1.dx = -player1.t.speed;
+				
+			}
+			
+		});
+		getActionMap().put("D", new AbstractAction(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				player1.dx = player1.t.speed;
+				
+			}
+			
+		});
+		getActionMap().put("rA", new AbstractAction(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				player1.dx = 0;
+				player1.canMove = true;
+			}
+			
+		});
+		getActionMap().put("rD", new AbstractAction(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				player1.dx = 0;
+				player1.canMove = true;
+
+			}
+			
+		});
+
+	}
+	
 	synchronized void start(){
 		
 		gameEngine = () -> gameLoop();
@@ -74,7 +125,9 @@ public class TankThing extends JPanel{
 		gameLoop.start();
 		
 		terrain = new Terrain(screenDim, (int) screenDim.getHeight() / 2, 3);
+		player1 = new Tank((int) screenDim.getWidth() / 10 , 0 ,terrain,TankType.SIMPLE);
 		sprites.add(terrain);
+		sprites.add(player1);
 	}
 	
 	 void gameLoop(){
@@ -140,9 +193,7 @@ public class TankThing extends JPanel{
 			
 			//checking if out of bounds
 			if(o.x < -BUFFER || o.x > screenDim.getWidth() + BUFFER || o.y > screenDim.getHeight() + BUFFER){
-				sprites.remove(i);
-				i--;
-				System.out.println("removing projectile");
+				o.setForTermination = true;
 			}
 			
 			//updating the hitboxes of objects
@@ -162,7 +213,9 @@ public class TankThing extends JPanel{
 				for(int i2 = 0; i2 < o.hitboxes.size(); i2++){
 					Hitbox box = o.hitboxes.get(i2);
 					if(!box.inContact){ //apply gravity
+						if(o.dy < MAX_GRAVITY){
 						o.dy += GRAVITY;
+						}
 					}else{
 						o.dy = 0;
 					}
@@ -173,8 +226,10 @@ public class TankThing extends JPanel{
 			
 			
 			//moving according to velocity
+			if(o.canMove){
 			o.x += o.dx;
 			o.y += o.dy;
+			}
 		}
 	
 		
@@ -200,6 +255,7 @@ public class TankThing extends JPanel{
 	}
 	
 	void drawStats(Graphics g){
+		g.setColor(Color.WHITE);
 		g.setFont(new Font("Aerial",Font.BOLD,20));
 		g.drawString("FPS: " + currentFPS, 10, 40);
 	}

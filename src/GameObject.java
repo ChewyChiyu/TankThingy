@@ -9,7 +9,7 @@ public abstract class GameObject {
 	
 	int x, y, dx, dy;
 	boolean affectedByGravity;
-	
+	boolean canMove = false;
 	boolean setForTermination = false;
 	
 	
