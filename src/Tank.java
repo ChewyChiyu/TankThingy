@@ -42,9 +42,8 @@ public class Tank extends GameObject{
 		double slope = -( p2.getY() - p1.getY() ) /  ( p2.getX() - p1.getX() );
 		System.out.println(Math.abs(p2.getY()-p1.getY()));
 		if(Math.abs(p2.getY()-p1.getY()) < ( t.h * 1.5 ) || Math.toDegrees(slope) < 60){ // jump isnt so big / realistic angle
-			if(Math.abs(angle - Math.toDegrees(slope)) > 25){ //decrease sensi and realistic slope
+			if(Math.abs(angle - Math.toDegrees(slope)) > 5){ //decrease sensi and realistic slope
 				p1.setLocation(p2.getX(), p2.getY()); //pushing position of previous search down to p1
-				System.out.println(Math.abs(angle - Math.toDegrees(slope)));
 				angle = -Math.toDegrees(slope);
 				y = heightPushUp;
 			}
