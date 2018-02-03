@@ -31,6 +31,8 @@ public class TankThing extends JPanel{
 	final int MAX_GRAVITY = 20;
 	
 	Tank player1;
+	TankThing world;
+	
 	
 	public TankThing(){
 		panel();
@@ -40,7 +42,7 @@ public class TankThing extends JPanel{
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				sprites.add(new Projectile(e.getX(),e.getY(),0,ProjectileType.SIMPLE));
+				sprites.add(new Projectile(e.getX(),e.getY(),10,-10,ProjectileType.SIMPLE));
 			}
 
 			@Override
@@ -76,7 +78,8 @@ public class TankThing extends JPanel{
 		getInputMap().put(KeyStroke.getKeyStroke("D"), "D");
 		getInputMap().put(KeyStroke.getKeyStroke("released A"), "rA");		
 		getInputMap().put(KeyStroke.getKeyStroke("released D"), "rD");
-		
+		getInputMap().put(KeyStroke.getKeyStroke("SPACE"), "shoot");
+
 		getActionMap().put("A", new AbstractAction(){
 
 			@Override
@@ -118,6 +121,15 @@ public class TankThing extends JPanel{
 			}
 			
 		});
+		getActionMap().put("shoot", new AbstractAction(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				player1.shoot(world);
+				
+			}
+			
+		});
 
 	}
 	
@@ -128,6 +140,7 @@ public class TankThing extends JPanel{
 		gameIsRunning = true;
 		gameLoop.start();
 		
+		world = this;
 		terrain = new Terrain(screenDim, (int) screenDim.getHeight() / 2, 1);
 		player1 = new Tank((int) screenDim.getWidth() / 10 , 0 ,terrain,TankType.SIMPLE);
 		sprites.add(terrain);

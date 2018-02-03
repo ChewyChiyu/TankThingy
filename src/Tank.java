@@ -34,7 +34,12 @@ public class Tank extends GameObject{
 				//moving y position to facet in terrain
 				y = h2.y - terrain.spacer;
 				
-				
+				// Shift Tank Angle
+				double angle =  Math.atan((double)(terrain.facets[h2.indexInArray + 1] - terrain.facets[h2.indexInArray-1] ) / (double) 1);
+				//checking for possible angle change
+				if(Math.abs(this.angle - angle) < 30){
+				this.angle = -angle;
+				}
 				
 			}else{
 				//impossible , cannot move tank
@@ -66,7 +71,7 @@ public class Tank extends GameObject{
 		}
 		g2d.setTransform(origin); //reseting transform
 	}
-
+	
 	@Override
 	void updateHitbox() {
 		// TODO Auto-generated method stub
@@ -81,6 +86,10 @@ public class Tank extends GameObject{
 			movementBox.setLocation(super.x + t.w/2,super.y+ t.h);
 		}
 
+	}
+	
+	void shoot(TankThing world){
+		world.sprites.add(new Projectile(x,y -t.h,15,-30,ProjectileType.SIMPLE));
 	}
 
 }

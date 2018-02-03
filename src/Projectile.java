@@ -1,25 +1,30 @@
+import java.awt.Color;
 import java.awt.Graphics;
 
 public class Projectile extends GameObject{
 	
 	ProjectileType type;
-	double angle; 
 	
-	public Projectile(int x, int y, double angle, ProjectileType p){
+	public Projectile(int x, int y, int dx, int dy, ProjectileType p){
 		affectedByGravity = true;
 		canMove = true;
 		type = p;
 		super.x = x;
 		super.y = y;
-		this.angle = angle;
 		hitboxes.add(new Hitbox(x,y,type.w,type.h,0,ObjectType.PROJECTILE_SIMPLE));
+		
+		this.dx = dx;
+		this.dy = dy;
 	}
 
 
 	@Override
 	void draw(Graphics g) {
 		// TODO Auto-generated method stub
-		g.drawOval(x, y, type.w, type.h);
+		if(!setForTermination){
+		g.setColor(Color.BLACK);
+		g.fillOval(x, y, type.w, type.h);
+		}
 	}
 
 
