@@ -54,15 +54,17 @@ public class Terrain extends GameObject{
 
 
 	@Override
-	void contact(Hitbox h1, Hitbox h2) {
+	void contact(GameObject o, GameObject o2, Hitbox h1, Hitbox h2) {
 		// TODO Auto-generated method stub
+		if(o2.setForTermination) { return; }
 		if(h2.o.equals(ObjectType.PROJECTILE_SIMPLE)){ // projectile to facet
+			o2.terminate(); // terminating bullet
 			for(int i = 0; i < hitboxes.size(); i++){
 				Hitbox h3 = hitboxes.get(i);
 				int diff = Math.abs(h1.indexInArray - h3.indexInArray );
-				if(diff < ProjectileType.SIMPLE.power / 5){
+				if(diff < ProjectileType.SIMPLE.power){
 					//facet that was contacted, the indexs of facets and hitbox are same
-					facets[h3.indexInArray] = facets[h3.indexInArray] -= ProjectileType.SIMPLE.power / 10;
+					facets[h3.indexInArray] = facets[h3.indexInArray] -= Math.sqrt((ProjectileType.SIMPLE.power * ProjectileType.SIMPLE.power)-(diff*diff));
 				}
 			}
 		}

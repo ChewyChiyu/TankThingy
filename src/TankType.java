@@ -1,6 +1,6 @@
 
 public enum TankType {
-	SIMPLE(50,30,5);
+	SIMPLE(40,25,5);
 	
 	int w,h,speed;
 	private TankType(int w, int h, int speed){

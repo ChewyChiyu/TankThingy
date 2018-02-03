@@ -5,6 +5,7 @@ public class Hitbox extends Rectangle{
 
 	
 	boolean inContact = false;
+	
 	int indexInArray;
 	ObjectType o;
 	

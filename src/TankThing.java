@@ -81,7 +81,9 @@ public class TankThing extends JPanel{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if(player1.canMove){
 				player1.dx = -player1.t.speed;
+				}
 				
 			}
 			
@@ -90,7 +92,9 @@ public class TankThing extends JPanel{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if(player1.canMove){
 				player1.dx = player1.t.speed;
+				}
 				
 			}
 			
@@ -110,7 +114,7 @@ public class TankThing extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				player1.dx = 0;
 				player1.canMove = true;
-
+				
 			}
 			
 		});
@@ -124,7 +128,7 @@ public class TankThing extends JPanel{
 		gameIsRunning = true;
 		gameLoop.start();
 		
-		terrain = new Terrain(screenDim, (int) screenDim.getHeight() / 2, 3);
+		terrain = new Terrain(screenDim, (int) screenDim.getHeight() / 2, 1);
 		player1 = new Tank((int) screenDim.getWidth() / 10 , 0 ,terrain,TankType.SIMPLE);
 		sprites.add(terrain);
 		sprites.add(player1);

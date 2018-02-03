@@ -24,7 +24,7 @@ public abstract class GameObject {
 						Hitbox r2 = o.hitboxes.get(i3);
 						if(r1.intersects(r2)){
 							r1.inContact = true;
-							contact(r1, r2);
+							contact(this,o,r1, r2);
 						}
 					}
 				}
@@ -33,7 +33,13 @@ public abstract class GameObject {
 		}
 	}
 	
-	abstract void contact(Hitbox h1, Hitbox h2);
+	void terminate(){
+		setForTermination = true;
+		canMove = false;
+		affectedByGravity = false;
+	}
+	
+	abstract void contact(GameObject h1, GameObject h2, Hitbox r1, Hitbox r2); //each contact passes through the two objects and the hitboxes collieded
 	abstract void draw(Graphics g);
 	abstract void updateHitbox();
 }

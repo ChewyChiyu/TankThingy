@@ -30,10 +30,11 @@ public class Projectile extends GameObject{
 
 
 	@Override
-	void contact(Hitbox h1, Hitbox h2) { //h1 is self so not needed
+	void contact(GameObject o, GameObject o2,Hitbox h1, Hitbox h2) { //h1 is self so not needed
 		// TODO Auto-generated method stub
+		if(o2.setForTermination) { return; }
 		if(h2.o.equals(ObjectType.FACET)){ //impacted facet
-			setForTermination = true; //impacted bullet
+			terminate(); //impacted bullet
 		}
 	}
 }
